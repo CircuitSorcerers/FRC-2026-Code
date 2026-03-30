@@ -63,7 +63,7 @@ public final class Autos {
         ballSubsystem.runOnce(ballSubsystem::stop),
         driveSubsystem.stopCommand());
   }
-  private static final Command exampleAutoWithIntake_Mirrored(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem){
+  public static final Command exampleAutoWithIntake_MIRRORED(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem){
     return new SequentialCommandGroup(
         // Spin up
       ballSubsystem.spinUpCommand().withTimeout(1),

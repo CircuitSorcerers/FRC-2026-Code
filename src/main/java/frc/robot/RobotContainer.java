@@ -51,6 +51,8 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Autonomous", Autos.exampleAuto(driveSubsystem, ballSubsystem));
     autoChooser.addOption("AutoIntake", Autos.exampleAutoWithIntake(driveSubsystem,ballSubsystem));
     autoChooser.addOption("AutoIntakeShoot", Autos.scoreReloadScoreAuto(driveSubsystem, ballSubsystem));
+    autoChooser.addOption("Autonomous_RIGHTSIDE", Autos.exampleAuto_MIRRORED(driveSubsystem, ballSubsystem));
+    autoChooser.addOption("AutoIntakeMIRRORED", Autos.exampleAutoWithIntake_MIRRORED(driveSubsystem, ballSubsystem));
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
 
