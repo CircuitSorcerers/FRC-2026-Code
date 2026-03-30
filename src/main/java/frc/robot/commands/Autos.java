@@ -39,7 +39,57 @@ public final class Autos {
         ballSubsystem.runOnce(ballSubsystem::stop),
         driveSubsystem.stopCommand());
   }
-
+  public static final Command exampleAuto_MIRRORED(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem){
+        return new SequentialCommandGroup(  
+        ballSubsystem.spinUpCommand().withTimeout(1),
+        // Launch for 6 seconds
+        ballSubsystem.launchCommand().withTimeout(5),
+        // Stop shooter
+        ballSubsystem.runOnce(ballSubsystem::stop),
+        //drive backwards and spin a little bit.
+        driveSubsystem.driveArcade(() -> -.5,() ->-.75).withTimeout(.45),
+        //spining stop.
+        driveSubsystem.stopCommand(),
+        //drive backwards into the middle
+        driveSubsystem.driveArcade(() -> .85,() ->0).withTimeout(1.5),
+        //spining stop.
+        driveSubsystem.stopCommand(),
+        //turn to face middle from the front
+        driveSubsystem.driveArcade(() -> 0,() ->-.8).withTimeout(.65),
+        driveSubsystem.stopCommand(),
+        //get the hell outta the way of the center and intake fuel
+        ballSubsystem.intakeCommand(),
+        driveSubsystem.driveArcade(()->-.5, ()->0).withTimeout(1.5),
+        ballSubsystem.runOnce(ballSubsystem::stop),
+        driveSubsystem.stopCommand());
+  }
+  private static final Command exampleAutoWithIntake_Mirrored(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem){
+    return new SequentialCommandGroup(
+        // Spin up
+      ballSubsystem.spinUpCommand().withTimeout(1),
+      // Launch
+      ballSubsystem.launchCommand().withTimeout(5),
+      // Stop shooter
+      ballSubsystem.runOnce(ballSubsystem::stop),
+      // Drive backwards + turn
+      driveSubsystem.driveArcade(() -> -.5, () -> -.75).withTimeout(.45),
+      driveSubsystem.stopCommand(),
+      // Drive backwards
+      driveSubsystem.driveArcade(() -> .85, () -> 0).withTimeout(1.5),
+      driveSubsystem.stopCommand(),
+      // Turn
+      driveSubsystem.driveArcade(() -> 0, () -> -.8).withTimeout(.65),
+      driveSubsystem.stopCommand(),
+      // 🚀 THIS is the only parallel part (same as your sequential but improved)
+      new ParallelDeadlineGroup(
+          driveSubsystem.driveArcade(() -> -.5, () -> 0).withTimeout(1.5),
+          ballSubsystem.intakeCommand()
+      ),
+      // Stop intake
+      ballSubsystem.runOnce(ballSubsystem::stop),
+      // Stop drive
+      driveSubsystem.stopCommand()  );
+  }
   // Example autonomous command which drives while intaking in parallel.
   // This keeps the same sequence as exampleAuto but runs intake during the
   // initial drive period so fuel will be collected while moving.
