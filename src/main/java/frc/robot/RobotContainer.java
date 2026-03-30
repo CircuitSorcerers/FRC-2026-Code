@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.OperatorConstants.*;
 import static frc.robot.Constants.FuelConstants.*;
@@ -49,6 +50,8 @@ public class RobotContainer {
     // autoChooser.addOption
     autoChooser.setDefaultOption("Autonomous", Autos.exampleAuto(driveSubsystem, ballSubsystem));
     autoChooser.addOption("AutoIntake", Autos.exampleAutoWithIntake(driveSubsystem,ballSubsystem));
+    autoChooser.addOption("AutoIntakeShoot", Autos.scoreReloadScoreAuto(driveSubsystem, ballSubsystem));
+    SmartDashboard.putData("Auto Mode", autoChooser);
   }
 
   /**
