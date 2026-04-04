@@ -4,16 +4,26 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.FuelConstants.AUTO_LAUNCHER_VOLTAGE;
+import static frc.robot.Constants.FuelConstants.FEEDER_MOTOR_CURRENT_LIMIT;
+import static frc.robot.Constants.FuelConstants.FEEDER_MOTOR_ID;
+import static frc.robot.Constants.FuelConstants.INTAKE_LAUNCHER_MOTOR_ID;
+import static frc.robot.Constants.FuelConstants.INTAKING_FEEDER_VOLTAGE;
+import static frc.robot.Constants.FuelConstants.INTAKING_INTAKE_VOLTAGE;
+import static frc.robot.Constants.FuelConstants.LAUNCHER_MOTOR_CURRENT_LIMIT;
+import static frc.robot.Constants.FuelConstants.LAUNCHING_FEEDER_VOLTAGE;
+import static frc.robot.Constants.FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE;
+import static frc.robot.Constants.FuelConstants.SPIN_UP_FEEDER_VOLTAGE;
+
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.FuelConstants.*;
 
 public class CANFuelSubsystem extends SubsystemBase {
   private final SparkMax feederRoller;
@@ -73,6 +83,11 @@ public class CANFuelSubsystem extends SubsystemBase {
     intakeLauncherRoller
         .setVoltage(SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_VOLTAGE));
   }
+  public void AUTOlaunch(){
+     feederRoller.setVoltage(SmartDashboard.getNumber("Launching AUTO feeder roller value", LAUNCHING_FEEDER_VOLTAGE));
+    intakeLauncherRoller
+        .setVoltage(SmartDashboard.getNumber("Launching launcher AUTO roller value", AUTO_LAUNCHER_VOLTAGE));
+  }
 
   // A method to stop the rollers
   public void stop() {
@@ -99,6 +114,9 @@ public class CANFuelSubsystem extends SubsystemBase {
   // subsystem
   public Command launchCommand() {
     return this.run(() -> launch());
+  }
+  public Command autoLaunchCommand(){
+    return this.run(()-> AUTOlaunch());
   }
   public Command intakeCommand () {
     return this.run(() -> intake());

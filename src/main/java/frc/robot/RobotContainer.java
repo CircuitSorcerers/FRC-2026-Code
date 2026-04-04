@@ -48,11 +48,12 @@ public class RobotContainer {
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
-    autoChooser.setDefaultOption("Autonomous", Autos.exampleAuto(driveSubsystem, ballSubsystem));
+    autoChooser.addOption("Autonomous", Autos.exampleAuto(driveSubsystem, ballSubsystem));
     autoChooser.addOption("AutoIntake", Autos.exampleAutoWithIntake(driveSubsystem,ballSubsystem));
     autoChooser.addOption("AutoIntakeShoot", Autos.scoreReloadScoreAuto(driveSubsystem, ballSubsystem));
     autoChooser.addOption("Autonomous_RIGHTSIDE", Autos.exampleAuto_MIRRORED(driveSubsystem, ballSubsystem));
     autoChooser.addOption("AutoIntakeMIRRORED", Autos.exampleAutoWithIntake_MIRRORED(driveSubsystem, ballSubsystem));
+    autoChooser.setDefaultOption("USETHIS", Autos.USETHIS(driveSubsystem, ballSubsystem));
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
 
